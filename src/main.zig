@@ -1,6 +1,6 @@
 const std = @import("std");
 const c = @cImport({
-    @cInclude("wren/wren.h");
+    @cInclude("wren.h");
 });
 
 pub const WrenVM = c.WrenVM;
