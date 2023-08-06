@@ -19,6 +19,8 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     }).artifact("wren"));
 
+    lib.linkLibC();
+    _ = b.addInstallHeaderFile("wren.h", "include/");
     b.installArtifact(lib);
 
     const main_tests = b.addTest(.{
