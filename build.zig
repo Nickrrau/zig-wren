@@ -4,23 +4,18 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    _ = b.addModule("zig-wren", .{
-        .source_file = .{ .path = "src/main.zig" },
+    const wren_dep = b.dependency("wren", .{
+        .target = target,
+        .optimize = optimize,
     });
 
     const lib = b.addStaticLibrary(.{
         .name = "zig-wren",
-        .root_source_file = .{ .path = "src/main.zig" },
         .target = target,
         .optimize = optimize,
     });
-    lib.linkLibrary(b.dependency("wren", .{
-        .target = target,
-        .optimize = optimize,
-    }).artifact("wren"));
 
-    lib.linkLibC();
-    _ = b.addInstallHeaderFile("wren.h", "include/");
+    lib.linkLibrary(wren_dep.artifact("wren"));
     b.installArtifact(lib);
 
     const main_tests = b.addTest(.{
