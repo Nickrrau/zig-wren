@@ -4,18 +4,22 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const wren_dep = b.dependency("wren", .{
-        .target = target,
-        .optimize = optimize,
+    _ = b.addModule("mach-glfw", .{
+        .source_file = .{ .path = "src/main.zig" },
     });
 
     const lib = b.addStaticLibrary(.{
         .name = "zig-wren",
+        .root_source_file = .{ .path = "src/main.zig" },
         .target = target,
         .optimize = optimize,
     });
 
-    lib.linkLibrary(wren_dep.artifact("wren"));
+    lib.linkLibrary(b.dependency("wren", .{
+        .target = target,
+        .optimize = optimize,
+    }).artifact("wren"));
+
     b.installArtifact(lib);
 
     const main_tests = b.addTest(.{
