@@ -32,3 +32,7 @@ pub fn build(b: *std.Build) void {
     const test_step = b.step("test", "Run library tests");
     test_step.dependOn(&run_main_tests.step);
 }
+
+pub fn link(step: *std.build.CompileStep) !void {
+    @import("wren").addPaths(step);
+}
