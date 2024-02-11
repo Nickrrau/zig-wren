@@ -15,7 +15,7 @@ fn defaultReallocate(ptr: ?*anyopaque, newSize: usize, _: ?*anyopaque) callconv(
 }
 
 test "Init with default configuration" {
-    var cfg = newConfig(
+    const cfg = newConfig(
         10000,
         10000,
         50,
@@ -74,7 +74,7 @@ pub fn newConfig(
         [*c]const u8,
     ) callconv(.C) void,
 ) Self {
-    var cfg = .{
+    const cfg = .{
         .initialHeapSize = initial_heap_size,
         .minHeapSize = min_heap_size,
         .heapGrowthPercent = heap_growth_percent,

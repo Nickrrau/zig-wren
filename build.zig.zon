@@ -3,8 +3,9 @@
   .version = "0.1.0",
   .dependencies = .{
     .wren = .{
-      .url = "https://github.com/Nickrrau/wren/archive/51bf95b3a2ad844774ce85e9bb665531ed0d409a.tar.gz",
-      .hash = "1220361b897eca60ac7029b8862df87e2d73bb94ace6ad183a89bf2fe6ae2e2835a5",
+      .url = "https://github.com/Nickrrau/wren/archive/b8f8c9a01c1c2877f103000efac22421cb707285.tar.gz",
+      .hash = "1220fd633817c8021173e5fb62b64d62746b2e919f689d5e4413e196a09365410429",
     },
   },
+  .paths = .{""},
 }
