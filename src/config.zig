@@ -2,7 +2,48 @@ const c = @import("c.zig");
 const std = @import("std");
 const Self = @This();
 
-internal_config: c.WrenConfiguration,
+reallocateFn: ?*const fn (
+    ?*anyopaque,
+    usize,
+    ?*anyopaque,
+) callconv(.C) ?*anyopaque,
+resolveModuleFn: ?*const fn (
+    ?*c.WrenVM,
+    [*c]const u8,
+    [*c]const u8,
+) callconv(.C) [*c]const u8,
+loadModuleFn: ?*const fn (
+    ?*c.WrenVM,
+    [*c]const u8,
+) callconv(.C) c.WrenLoadModuleResult,
+bindForeignMethodFn: ?*const fn (
+    ?*c.WrenVM,
+    [*c]const u8,
+    [*c]const u8,
+    bool,
+    [*c]const u8,
+) callconv(.C) c.WrenForeignMethodFn,
+bindForeignClassFn: ?*const fn (
+    ?*c.WrenVM,
+    [*c]const u8,
+    [*c]const u8,
+) callconv(.C) c.WrenForeignClassMethods,
+writeFn: ?*const fn (
+    ?*c.WrenVM,
+    [*c]const u8,
+) callconv(.C) void,
+errorFn: ?*const fn (
+    ?*c.WrenVM,
+    c.WrenErrorType,
+    [*c]const u8,
+    c_int,
+    [*c]const u8,
+) callconv(.C) void,
+
+initialHeapSize: usize,
+minHeapSize: usize,
+heapGrowthPercent: c_int,
+userData: ?*anyopaque,
 
 fn defaultReallocate(ptr: ?*anyopaque, newSize: usize, _: ?*anyopaque) callconv(.C) ?*anyopaque {
     // alloc = std.c.
@@ -28,8 +69,8 @@ test "Init with default configuration" {
         null,
     );
 
-    try std.testing.expect(cfg.internal_config.initialHeapSize == 10000);
-    try std.testing.expect(cfg.internal_config.minHeapSize == 10000);
+    try std.testing.expect(cfg.initialHeapSize == 10000);
+    try std.testing.expect(cfg.minHeapSize == 10000);
 }
 
 pub fn newConfig(
@@ -74,7 +115,7 @@ pub fn newConfig(
         [*c]const u8,
     ) callconv(.C) void,
 ) Self {
-    const cfg = .{
+    return .{
         .initialHeapSize = initial_heap_size,
         .minHeapSize = min_heap_size,
         .heapGrowthPercent = heap_growth_percent,
@@ -86,8 +127,5 @@ pub fn newConfig(
         .writeFn = writeFn,
         .errorFn = errorFn,
         .userData = null,
-    };
-    return .{
-        .internal_config = cfg,
     };
 }

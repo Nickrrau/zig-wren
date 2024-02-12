@@ -2,6 +2,9 @@ const c = @cImport({
     @cInclude("wren.h");
 });
 
+pub const WrenVer = c.WREN_VERSION_NUMBER;
+pub const WrenGetVer = c.wrenGetVersionNumber;
+
 pub const WrenVM = c.WrenVM;
 pub const wrenNewVM = c.wrenNewVM;
 pub const wrenFreeVM = c.wrenFreeVM;

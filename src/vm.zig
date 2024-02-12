@@ -14,7 +14,7 @@ const InterpretError = error{
 internal_vm: *c.WrenVM,
 
 pub fn new(cfg: *config) VMError!Self {
-    const vm = c.wrenNewVM(&cfg.internal_config) orelse return VMError.InitFailed;
+    const vm = c.wrenNewVM(@ptrCast(cfg)) orelse return VMError.InitFailed;
     return .{
         .internal_vm = vm,
     };

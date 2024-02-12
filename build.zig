@@ -5,12 +5,12 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     _ = b.addModule("zig-wren", .{
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = .{ .path = "src/wren.zig" },
     });
 
     const lib = b.addStaticLibrary(.{
         .name = "zig-wren",
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = .{ .path = "src/wren.zig" },
         .target = target,
         .optimize = optimize,
     });

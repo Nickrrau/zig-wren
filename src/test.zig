@@ -1,4 +1,5 @@
 const std = @import("std");
+const testing = std.testing;
 const c = @import("c.zig");
 const WrenConfig = @import("config.zig");
 const WrenVM = @import("vm.zig");
